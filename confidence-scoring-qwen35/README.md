@@ -104,6 +104,9 @@ Overall `is_correct` (best-effort): **5,590 correct / 2,569 wrong / 93 missing f
   **not sufficient** on its own. Better options: calibrate the score (map confidence →
   empirical accuracy), or use agreement across multiple sampled answers.
 
+Concrete examples of both failure directions — high-confidence wrong answers and
+low-confidence correct answers — are collected in [`examples.md`](examples.md).
+
 ## Reproduce
 
 ```bash
