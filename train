@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# SageMaker BYOC entrypoint: map SM_HP_* hyperparameters -> train_grpo.py flags.
+# Boolean flags are passed as "true"/"false" hyperparameters.
+set -e
+
+ARGS=()
+while IFS= read -r line; do
+  key="${line%%=*}"
+  val="${line#*=}"
+  arg="--${key#SM_HP_}"
+  case "$val" in
+    true|True|1)   ARGS+=("$arg") ;;
+    false|False|0) ;;
+    *)             ARGS+=("$arg" "$val") ;;
+  esac
+done < <(env | grep '^SM_HP_' | sort)
+
+exec python /opt/ml/code/train_grpo.py "${ARGS[@]}" "$@"

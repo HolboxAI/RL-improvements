@@ -1,0 +1,12 @@
+Foreign object classes (canonical, 8 total):
+
+- Clip: a small metal or polymer clip used to ligate vessels or ducts.
+- Silicone loop: a flexible silicone band used for retraction or marking.
+- Needle: a surgical suture needle.
+- Sponge: a soft absorbent gauze pad.
+- Specimen bag: a retrieval pouch for excised tissue.
+- Specimen: excised tissue removed from the patient.
+- External drain: a drainage tube exiting the body.
+- Gallstone: a stone removed from the biliary tract.
+
+NOTE: replace this file with the project's actual FO_definitions.txt before a real run.

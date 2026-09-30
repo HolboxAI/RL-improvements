@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+outputs/
+*.parquet
+*.jpg
+*.png
+.DS_Store
