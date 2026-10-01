@@ -14,10 +14,12 @@ HYPERPARAMETERS = {
     "parquet": "/opt/ml/input/data/train/frames_train_true.parquet",
     "frames_root": "/opt/ml/input/data/train/curated_frames",
     "fo_defs": "/opt/ml/code/fo_defs.txt",
-    "output_dir": "/opt/ml/model",
+    "output_dir": "/opt/ml/checkpoints",
+    "model_dir": "/opt/ml/model",
     "merge_adapter": "true",
     "lora": "true",
-    "max_steps": "200",
+    "max_steps": "50",
+    "save_steps": "25",
 }
 
 
@@ -27,9 +29,13 @@ def main():
     ap.add_argument("--role", required=True, help="SageMaker execution role ARN")
     ap.add_argument("--s3-train", required=True, help="s3://... prefix with parquet + frames + models")
     ap.add_argument("--s3-output", required=True, help="s3://... output prefix")
-    ap.add_argument("--instance-type", default="ml.p4d.24xlarge")
+    ap.add_argument("--instance-type", default="ml.g5.12xlarge")
     ap.add_argument("--region", default="us-east-1")
-    ap.add_argument("--name", default="rl-grpo-byoc")
+    ap.add_argument("--name", default="rl-grpo-spot")
+    ap.add_argument("--checkpoint-s3", required=True, help="s3://... URI for auto checkpoints")
+    ap.add_argument("--max-runtime", type=int, default=3600, help="MaxRuntimeInSeconds")
+    ap.add_argument("--max-wait", type=int, default=7200, help="MaxWaitTimeInSeconds")
+    ap.add_argument("--on-demand", action="store_true", help="disable managed spot training")
     args = ap.parse_args()
 
     sm = boto3.client("sagemaker", region_name=args.region)
@@ -55,7 +61,13 @@ def main():
             }},
         }],
         OutputDataConfig={"S3OutputPath": args.s3_output},
-        StoppingCondition={"MaxRuntimeInSeconds": 86400},
+        StoppingCondition={
+            "MaxRuntimeInSeconds": args.max_runtime,
+            "MaxWaitTimeInSeconds": args.max_wait,
+        },
+        EnableManagedSpotTraining=not args.on_demand,
+        CheckpointConfig={"S3Uri": args.checkpoint_s3},
+        DebugHookConfig={"S3OutputPath": args.s3_output},
     )
     print(resp["TrainingJobArn"])
 

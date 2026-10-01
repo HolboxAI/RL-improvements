@@ -5,8 +5,8 @@ python train_grpo.py \
   --base /path/to/Qwen3.5-9B \
   --adapter /path/to/A_s189 \
   --parquet /path/to/frames_train_true.parquet \
-  --frames-root /path/to/curated_frames \
-  --fo-defs fo_defs.txt \
-  --output-dir ./outputs/grpo \
-  --merge-adapter --lora \
+  --frames_root /path/to/curated_frames \
+  --fo_defs fo_defs.txt \
+  --output_dir ./outputs/grpo \
+  --merge_adapter --lora \
   "$@"
