@@ -45,7 +45,7 @@ def main():
     ap.add_argument("--region", default="us-east-1")
     ap.add_argument("--name", default="rl-grpo-spot-smoke")
     ap.add_argument("--source-dir", default="/tmp/RL-improvements")
-    ap.add_argument("--framework-version", default="2.3.1")
+    ap.add_argument("--framework-version", default="2.5.1")
     ap.add_argument("--py-version", default="py311")
     ap.add_argument("--checkpoint-s3", default="s3://stanford-train-data/rlvr/checkpoints")
     ap.add_argument("--output-path", default="s3://stanford-train-data/rlvr/smoke-output")
