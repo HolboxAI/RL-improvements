@@ -70,7 +70,7 @@ def _micro_f1(pred: set, gold: set) -> float:
     tp = len(pred & gold)
     prec = tp / len(pred)
     rec = tp / len(gold)
-    return 2 * prec * rec / (prec + rec)
+    return 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0.0
 
 
 def _token_f1(pred: str, gold: str) -> float:
@@ -83,7 +83,7 @@ def _token_f1(pred: str, gold: str) -> float:
     tp = sum((p & g).values())
     prec = tp / sum(p.values())
     rec = tp / sum(g.values())
-    return 2 * prec * rec / (prec + rec)
+    return 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0.0
 
 
 def score(generated: str, gold: str, fmt: str) -> float:
